@@ -2,6 +2,7 @@ const fs = require("fs/promises");
 const bodyParser = require("body-parser")
 const path = require("path");
 const express = require("express");
+const productsFile="./data/meals.json";
 
 const app = express();
 
@@ -17,9 +18,19 @@ app.use((req, res, next) => {
 });
 
 app.get("/meals", async (req, res) => {
-  const meals = "[]" // data should be read from file
-  res.json(JSON.parse(meals));
+  try {
+    const raw = await fs.readFile(productsFile, "utf-8");
+    const meals = JSON.parse(raw);
+
+    res.json(meals);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Toodete lugemine ebaõnnestus" });
+  }
 });
+  
+  
+  
 
 app.use((req, res) => {
   if (req.method === "OPTIONS") {

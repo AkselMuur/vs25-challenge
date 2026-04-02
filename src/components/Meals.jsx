@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import MealItem from "./MealItem.jsx";
 
 const Meals = () => {
   const [expenses, setExpenses] = useState([]);

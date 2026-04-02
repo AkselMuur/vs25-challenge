@@ -3,12 +3,12 @@ const MealItem = (props) => {
     <li>
       <article className="meal-item">
         <img
-          id="meal-item_img"
+          className="meal-item img"
           src={require(`../assets/${props.meal.image}`)}
           alt={props.meal.name}
         />
         <div>
-          <h3 className="meal-item_h3">{props.meal.name}</h3>
+          <h3 className="meal-item h3">{props.meal.name}</h3>
           <p className="meal-item-price">{props.meal.price}</p>
           <p className="meal-item-description">{props.meal.description}</p>
         </div>

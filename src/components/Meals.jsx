@@ -2,51 +2,44 @@ import { useState, useEffect } from "react";
 import MealItem from "./MealItem.jsx";
 
 const Meals = () => {
-  const [expenses, setExpenses] = useState([]);
+  const [meals, setMeals] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState(null);
-  const [showError, setShowError] = useState(false);
 
   useEffect(() => {
-    const getExpenses = async () => {
+    const getMeals = async () => {
       setIsFetching(true);
 
       try {
         const response = await fetch("http://localhost:3001/meals");
         const data = await response.json();
 
+        console.log("API DATA:", data);
+
         if (!response.ok) throw new Error("Failed fetching data");
 
-        setExpenses(data.expenses);
-        console.log(data);
-
+        setMeals(data);
       } catch (error) {
         setError({
           title: "An error occurred!",
-          message: "Failed fetching expenses data, please try again later.",
+          message: "Failed fetching meals data, please try again later.",
         });
-        setShowError(true);
       }
 
       setIsFetching(false);
     };
 
-    getExpenses();
+    getMeals();
   }, []);
-  useEffect(() => {
-    localStorage.setItem("expenses", JSON.stringify(expenses));
-  }, [expenses]);
 
-
-
-
-
-
-
-
-
-
-  return <ul id="meals">{}</ul>;
+  return (
+    <ul id="meals">
+      {Array.isArray(meals) &&
+        meals.map((meal) => (
+          <MealItem key={meal.id} meal={meal} />
+        ))}
+    </ul>
+  );
 };
 
 export default Meals;

@@ -1,6 +1,14 @@
-import Button from "./UI/Button";
+import { useContext } from "react";
+import { CartContext } from "../store/CartContext";
+import Button from './UI/Button.jsx';
 
 const MealItem = (props) => {
+  const cartCtx = useContext(CartContext);
+
+  const addToCartHandler = () => {
+    cartCtx.addItem(props.meal);
+  };
+
   const euroFormatter = new Intl.NumberFormat("et-EE", {
     style: "currency",
     currency: "EUR",
@@ -16,16 +24,12 @@ const MealItem = (props) => {
         />
         <div>
           <h3 className="meal-item h3">{props.meal.name}</h3>
-          <p className="meal-item-price">
-            {euroFormatter.format(props.meal.price)}
-          </p>
+          <p className="meal-item-price">{euroFormatter.format(props.meal.price)}</p>
           <p className="meal-item-description">{props.meal.description}</p>
         </div>
 
         <p>
-          <Button>
-            Add to Cart
-          </Button>
+          <Button onClick={addToCartHandler}>Add to Cart</Button>
         </p>
       </article>
     </li>
